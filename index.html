@@ -7,23 +7,23 @@
 </head>
 <body>
     <!--TODO: Build the Markup for your Game. Don't forget to style it in a cascading stylesheet. -->
-    <header>
-        <h1 id ="headline">Connect Four Linux vs Apple</h1>
-        <h2 id ="story">Which is the best OS?</h2>
-        <p id = "message"></p>
-    </header>
-
-    <main class="linux_vs_apple">
-        <aside class="linux">
-
+    <main class="linux-vs-macos">
+        <aside class="player" id="player-1">
+            <h2>Linux</h2>
+            <div class="character" id="linux"></div>
         </aside>
 
         <section class="battlefield">
-
+            <h1>Linux vs MacOS</h1>
+            <p id="messages">Linux starts!</p>
+            <div id="controls"></div>
+            <div id="playfield"></div>
+            <button id="restart">Restart</button>
         </section>
 
-        <aside class="apple">
-
+        <aside class="player" id="player-2">
+            <h2>MacOS</h2>
+            <div class="character" id ="macos"></div>
         </aside>
     </main>
 

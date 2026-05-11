@@ -39,23 +39,47 @@
 //TODO: Method to change the current player (and dispatch the according event).
 
 
-const connectfour =
-    [
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null]
-    ];
+
 
 const ConnectFourModel = {
     rows: 6,
     columns: 7,
     board: [],
-    players: ["linux", "apple"],
+    players: ["linux", "macos"],
     currentPlayer: "linux",
     gameOver: false,
     winner: null,
-    winningStones: []
+    winningStones: [],
+    initBoard(){
+        this.board = [];
+        for(let row = 0; row < this.rows; row++){
+            const currentRow = [];
+
+            for(let col = 0; col < this.columns; col++){
+                currentRow.push(null);
+            }
+
+            this.board.push(currentRow);
+        }
+
+    },
+    dispatchPlayerChange(){
+        document.dispatchEvent(new CustomEvent('connectfour:playerchange', {
+            detail: {
+                currentPlayer: this.currentPlayer
+            }
+        }));
+    },
+    dispatchInsertCoin(coin){
+       document.dispatchEvent(new CustomEvent('connectfour:insertCoin', {
+           detail: coin
+       }));
+    },
+    dispatchgameOver(winner){
+        document.dispatchEvent(new CustomEvent('connectfour:gameover', {
+            detail: winner
+        }));
+    }
+
+
 };
