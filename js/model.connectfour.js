@@ -37,3 +37,25 @@
 //      to your custom event.
 
 //TODO: Method to change the current player (and dispatch the according event).
+
+
+const connectfour =
+    [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null]
+    ];
+
+const ConnectFourModel = {
+    rows: 6,
+    columns: 7,
+    board: [],
+    players: ["linux", "apple"],
+    currentPlayer: "linux",
+    gameOver: false,
+    winner: null,
+    winningStones: []
+};
