@@ -41,7 +41,7 @@
 
 
 
-const ConnectFourModel = {
+export const ConnectFourModel = {
     rows: 6,
     columns: 7,
     board: [],

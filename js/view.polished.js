@@ -13,7 +13,7 @@
 //TODO: Notify the player when the game is over. Make it clear how the
 //      Game ended. If it's a win, show the winning stones.
 
-export let ConnectFourView = {
+export const ConnectFourView = {
     controls: document.getElementById("controls"),
     messages: document.getElementById("messages"),
     playfield: document.getElementById("playfield"),
