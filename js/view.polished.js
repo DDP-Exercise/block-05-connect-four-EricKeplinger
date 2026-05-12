@@ -18,7 +18,7 @@ export const ConnectFourView = {
     messages: document.getElementById("messages"),
     playfield: document.getElementById("playfield"),
 
-    rendercontrol(){
+    renderControl(){
         this.controls.innerHTML = "";
 
         for (let column = 0; column < 7; column++) {

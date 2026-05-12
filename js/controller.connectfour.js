@@ -49,3 +49,45 @@
 import {ConnectFourView} from "./view.polished.js";
 import {ConnectFourModel} from "./model.connectfour.js";
 
+const ConnectFourController = {
+    init(){
+        ConnectFourModel.initBoard();
+        ConnectFourView.renderControl();
+        ConnectFourView.renderBoard(ConnectFourModel.board);
+        ConnectFourView.writeMessages("Linux starts!");
+
+        this.Controls();
+        this.Restart();
+    },
+
+    Controls(){
+        ConnectFourView.controls.addEventListener("click", function(event){
+            if (!event.target.classList.contains("column-button")) {
+                return;
+            }
+
+            const column = Number(event.target.dataset.column);
+            const inserted = ConnectFourModel.insertCoin(column);
+
+            if (!inserted && !ConnectFourModel.gameOver) {
+                ConnectFourView.writeMessages("This column is full!");
+                return;
+            }
+
+            ConnectFourView.renderBoard(ConnectFourModel.board);
+        });
+    },
+
+    Restart(){
+        const restartButton = document.getElementById("restart");
+
+        restartButton.addEventListener("click", function(event){
+            ConnectFourModel.initBoard();
+            ConnectFourView.renderBoard(ConnectFourModel.board);
+            ConnectFourView.writeMessages("Linux starts!");
+        });
+    }
+
+};
+
+ConnectFourController.init();
