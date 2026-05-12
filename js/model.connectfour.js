@@ -49,10 +49,15 @@ const ConnectFourModel = {
     currentPlayer: "linux",
     gameOver: false,
     winner: null,
-    winningStones: [],
+    winningCoins: [],
 
     initBoard(){
         this.board = [];
+        this.currentPlayer = "linux";
+        this.gameOver = false;
+        this.winner = null;
+        this.winningCoins = [];
+
         for(let row = 0; row < this.rows; row++){
             const currentRow = [];
 
@@ -101,6 +106,7 @@ const ConnectFourModel = {
                   column: column,
                   board: this.board
               });
+
               let a = this.checkforantidiagonalwin(row, column);
               let b =this.checkfordiagonalwin(row, column);
               let c =this.checkforverticalwin(row, column);
@@ -110,17 +116,19 @@ const ConnectFourModel = {
               if(a || b || c || d){
                   this.gameOver = true;
                   this.winner = this.currentPlayer;
+
                   this.dispatchgameOver({
                       winner: this.winner,
-                      winningStones: this.winningStones,
+                      winningCoins: this.winningCoins,
                       isDraw: false,
                   });
                   return true
+
               } else if(e){
                   this.gameOver = true;
                   this.dispatchgameOver({
                       winner: null,
-                      winningStones: this.winningStones,
+                      winningCoins: [],
                       isDraw: true,
                   });
                   return true
@@ -136,24 +144,24 @@ const ConnectFourModel = {
     checkforhorizontalwin(row, column){
         const player = this.currentPlayer;
         let count = 1;
-        let stones = [{ row: row, column: column }];
+        let coins = [{ row: row, column: column }];
 
         let c = column - 1;
         while (c >= 0 && this.board[row][c] === player) {
             count++;
-            stones.unshift({ row: row, column: c });
+            coins.unshift({ row: row, column: c });
             c--;
         }
 
         c = column + 1;
         while (c < this.columns && this.board[row][c] === player) {
             count++;
-            stones.push({ row: row, column: c });
+            coins.push({ row: row, column: c });
             c++;
         }
 
         if (count >= 4) {
-            this.winningStones = stones;
+            this.winningCoins = coins;
             return true;
         }
 
@@ -161,19 +169,101 @@ const ConnectFourModel = {
     },
 
     checkforverticalwin(row, column){
+        const player = this.currentPlayer;
+        let count = 1;
+        let coins = [{ row: row, column: column }];
 
+        let r = row + 1;
+        while (r < this.rows && this.board[r][column] === player) {
+            count++;
+            coins.push({ row: r, column: column });
+            r++;
+        }
+
+        if (count >= 4) {
+            this.winningCoins = coins;
+            return true;
+        }
+
+        return false;
     },
 
     checkfordiagonalwin(row, column){
+        const player = this.currentPlayer;
+        let count = 1;
+        let coins = [{ row: row, column: column }];
 
+        let r = row - 1;
+        let c = column - 1;
+
+        while (r >= 0 && c >= 0 && this.board[r][c] === player) {
+            count++;
+            coins.unshift({ row: r, column: c });
+            r--;
+            c--;
+        }
+
+        r = row + 1;
+        c = column + 1;
+
+        while (r < this.rows && c < this.columns && this.board[r][c] === player) {
+            count++;
+            coins.push({ row: r, column: c });
+            r++;
+            c++;
+        }
+
+        if (count >= 4) {
+            this.winningCoins = coins;
+            return true;
+        }
+
+        return false;
     },
 
     checkforantidiagonalwin(row, column){
+        const player = this.currentPlayer;
+        let count = 1;
+        let coins = [{ row: row, column: column }];
 
+        let r = row - 1;
+        let c = column + 1;
+
+        while (r >= 0 && c < this.columns && this.board[r][c] === player) {
+            count++;
+            coins.unshift({ row: r, column: c });
+            r--;
+            c++;
+        }
+
+        r = row + 1;
+        c = column - 1;
+
+        while (r < this.rows && c >= 0 && this.board[r][c] === player) {
+            count++;
+            coins.push({ row: r, column: c });
+            r++;
+            c--;
+        }
+
+        if (count >= 4) {
+            this.winningCoins = coins;
+            return true;
+        }
+
+        return false;
     },
 
     checkfordraw(){
+        for (let row = 0; row < this.rows; row++) {
+            for (let column = 0; column < this.columns; column++) {
+                if (this.board[row][column] === null) {
+                    return false;
+                }
+            }
+        }
 
+        return true;
     },
 
     playerChange(){
