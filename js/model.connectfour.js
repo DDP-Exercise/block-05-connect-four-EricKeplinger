@@ -50,6 +50,7 @@ const ConnectFourModel = {
     gameOver: false,
     winner: null,
     winningStones: [],
+
     initBoard(){
         this.board = [];
         for(let row = 0; row < this.rows; row++){
@@ -63,6 +64,7 @@ const ConnectFourModel = {
         }
 
     },
+
     dispatchPlayerChange(){
         document.dispatchEvent(new CustomEvent('connectfour:playerchange', {
             detail: {
@@ -70,16 +72,19 @@ const ConnectFourModel = {
             }
         }));
     },
+
     dispatchInsertCoin(coin){
        document.dispatchEvent(new CustomEvent('connectfour:insertCoin', {
            detail: coin
        }));
     },
+
     dispatchgameOver(winner){
         document.dispatchEvent(new CustomEvent('connectfour:gameover', {
             detail: winner
         }));
     },
+
     insertCoin(column){
         let coininsert = false;
 
@@ -96,13 +101,81 @@ const ConnectFourModel = {
                   column: column,
                   board: this.board
               });
+              let a = this.checkforantidiagonalwin(row, column);
+              let b =this.checkfordiagonalwin(row, column);
+              let c =this.checkforverticalwin(row, column);
+              let d = this.checkforhorizontalwin(row, column);
+              let e = this.checkfordraw();
+
+              if(a || b || c || d){
+                  this.gameOver = true;
+                  this.winner = this.currentPlayer;
+                  this.dispatchgameOver({
+                      winner: this.winner,
+                      winningStones: this.winningStones,
+                      isDraw: false,
+                  });
+                  return true
+              } else if(e){
+                  this.gameOver = true;
+                  this.dispatchgameOver({
+                      winner: null,
+                      winningStones: this.winningStones,
+                      isDraw: true,
+                  });
+                  return true
+              }
+              this.playerChange();
               coininsert = true;
               return coininsert;
           }
         }
-
         return coininsert;
     },
+
+    checkforhorizontalwin(row, column){
+        const player = this.currentPlayer;
+        let count = 1;
+        let stones = [{ row: row, column: column }];
+
+        let c = column - 1;
+        while (c >= 0 && this.board[row][c] === player) {
+            count++;
+            stones.unshift({ row: row, column: c });
+            c--;
+        }
+
+        c = column + 1;
+        while (c < this.columns && this.board[row][c] === player) {
+            count++;
+            stones.push({ row: row, column: c });
+            c++;
+        }
+
+        if (count >= 4) {
+            this.winningStones = stones;
+            return true;
+        }
+
+        return false;
+    },
+
+    checkforverticalwin(row, column){
+
+    },
+
+    checkfordiagonalwin(row, column){
+
+    },
+
+    checkforantidiagonalwin(row, column){
+
+    },
+
+    checkfordraw(){
+
+    },
+
     playerChange(){
         if(this.currentPlayer === "linux"){
             this.currentPlayer = "macos";
@@ -110,7 +183,9 @@ const ConnectFourModel = {
             this.currentPlayer = "linux";
         }
         this.dispatchPlayerChange();
-    }
+    },
+
+
 
 
 
