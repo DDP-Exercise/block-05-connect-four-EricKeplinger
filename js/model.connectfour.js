@@ -79,7 +79,39 @@ const ConnectFourModel = {
         document.dispatchEvent(new CustomEvent('connectfour:gameover', {
             detail: winner
         }));
+    },
+    insertCoin(column){
+        let coininsert = false;
+
+        if(this.gameOver){
+            return coininsert;
+        }
+
+        for(let row = this.rows - 1; row >= 0; row--){
+          if(this.board[row][column] === null){
+              this.board[row][column] = this.currentPlayer;
+              this.dispatchInsertCoin({
+                  player: this.currentPlayer,
+                  row: row,
+                  column: column,
+                  board: this.board
+              });
+              coininsert = true;
+              return coininsert;
+          }
+        }
+
+        return coininsert;
+    },
+    playerChange(){
+        if(this.currentPlayer === "linux"){
+            this.currentPlayer = "macos";
+        } else {
+            this.currentPlayer = "linux";
+        }
+        this.dispatchPlayerChange();
     }
+
 
 
 };
