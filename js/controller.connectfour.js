@@ -51,10 +51,12 @@ import {ConnectFourModel} from "./model.connectfour.js";
 
 const ConnectFourController = {
     init(){
+
         ConnectFourModel.initBoard();
         ConnectFourView.renderControl();
         ConnectFourView.renderBoard(ConnectFourModel.board);
-        ConnectFourView.writeMessages("Linux starts!");
+        ConnectFourView.bindModelEvents(ConnectFourModel);
+        ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
 
         this.Controls();
         this.Restart();
@@ -81,10 +83,10 @@ const ConnectFourController = {
     Restart(){
         const restartButton = document.getElementById("restart");
 
-        restartButton.addEventListener("click", function(event){
+        restartButton.addEventListener("click", function(){
             ConnectFourModel.initBoard();
             ConnectFourView.renderBoard(ConnectFourModel.board);
-            ConnectFourView.writeMessages("Linux starts!");
+            ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
         });
     }
 

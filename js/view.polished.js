@@ -14,6 +14,9 @@
 //      Game ended. If it's a win, show the winning stones.
 
 export const ConnectFourView = {
+    winningCoins: [],
+    linux: document.getElementById("linux"),
+    macos: document.getElementById("macos"),
     controls: document.getElementById("controls"),
     messages: document.getElementById("messages"),
     playfield: document.getElementById("playfield"),
@@ -48,6 +51,14 @@ export const ConnectFourView = {
                     circle.classList.add("macos-coin");
                 }
 
+                const isWinningCoin = this.winningCoins.some((coin) => {
+                    return coin.row === row && coin.column === column;
+                });
+
+                if (isWinningCoin) {
+                    circle.classList.add("winning-coin");
+                }
+
                 this.playfield.appendChild(circle);
             }
         }
@@ -55,6 +66,45 @@ export const ConnectFourView = {
 
     writeMessages(text){
         this.messages.textContent = text;
+    },
+
+    showCurrentPlayer(player){
+        this.linux.classList.remove("active-player");
+        this.macos.classList.remove("active-player");
+
+        if (player === "linux") {
+            this.linux.classList.add("active-player");
+            this.writeMessages("Linux's turn!");
+        } else if (player === "macos") {
+            this.macos.classList.add("active-player");
+            this.writeMessages("MacOS's turn!");
+        }
+    },
+
+    showGameOver(detail){
+        if (detail.isDraw) {
+            this.winningCoins = [];
+            this.writeMessages("Draw! Guess Linux and MacOS are both pretty good.");
+            return;
+        }
+
+        this.winningCoins = detail.winningCoins;
+        this.writeMessages(detail.winner + " is the better OS!");
+    },
+
+    bindModelEvents(model){
+        document.addEventListener("connectfour:playerchange", (event) => {
+            this.showCurrentPlayer(event.detail.currentPlayer);
+        });
+
+        document.addEventListener("connectfour:insertCoin", () => {
+            this.renderBoard(model.board);
+        });
+
+        document.addEventListener("connectfour:gameover", (event) => {
+            this.showGameOver(event.detail);
+            this.renderBoard(model.board);
+        });
     }
 
 };
