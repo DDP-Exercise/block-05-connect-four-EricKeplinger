@@ -37,7 +37,7 @@
  *
  *     The creation of this game should take you somewhere between
  *     8-10 hours of concentrated work.
- *     Bratlsoft - 2026-04-29
+ *     Eric Keplinger - 2026-05-11
  *******************************************************/
 
 
@@ -45,3 +45,85 @@
 //      the view (or views, if you decide to make a console-view).
 
 //TODO: Add EventListeners, to forward the user inputs to the model.
+
+import {ConnectFourView} from "./view.polished.js";
+import {ConnectFourModel} from "./model.connectfour.js";
+
+const ConnectFourController = {
+    init(){
+
+        ConnectFourModel.initBoard();
+        ConnectFourView.renderControl();
+        ConnectFourView.renderBoard(ConnectFourModel.board);
+        ConnectFourView.bindModelEvents(ConnectFourModel);
+        ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
+
+        this.Controls();
+        this.playField();
+        this.HoverPlayfield();
+        this.Restart();
+    },
+
+    Controls(){
+        ConnectFourView.controls.addEventListener("click", (event) => {
+            if (!event.target.classList.contains("column-button")) {
+                return;
+            }
+
+            const column = Number(event.target.dataset.column);
+            this.playColumn(column);
+        });
+    },
+    playColumn(column){
+        const inserted = ConnectFourModel.insertCoin(column);
+
+        if (!inserted && !ConnectFourModel.gameOver) {
+            ConnectFourView.writeMessages("This column is full!");
+            return;
+        }
+
+        ConnectFourView.renderBoard(ConnectFourModel.board);
+    },
+
+    playField(){
+        ConnectFourView.playfield.addEventListener("click", (event) => {
+            if (!event.target.classList.contains("coin")) {
+                return;
+            }
+
+            const column = Number(event.target.dataset.column);
+            this.playColumn(column);
+        });
+    },
+
+    HoverPlayfield(){
+        ConnectFourView.playfield.addEventListener("mouseover", (event) => {
+            if (!event.target.classList.contains("coin")) {
+                return;
+            }
+
+            const column = Number(event.target.dataset.column);
+            ConnectFourView.clearColumnHighlight();
+            ConnectFourView.highlightColumn(column);
+        });
+
+        ConnectFourView.playfield.addEventListener("mouseout", () => {
+            ConnectFourView.clearColumnHighlight();
+        });
+    },
+
+
+    Restart(){
+        const restartButton = document.getElementById("restart");
+
+        restartButton.addEventListener("click", () => {
+            ConnectFourModel.initBoard();
+            ConnectFourView.winningCoins = [];
+            ConnectFourView.renderBoard(ConnectFourModel.board);
+            ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
+        });
+    }
+
+};
+
+ConnectFourController.init();

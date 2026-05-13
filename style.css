@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    padding: 24px;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.linux-vs-macos {
+    display: grid;
+    grid-template-columns: 180px auto 180px;
+    gap: 24px;
+    align-items: start;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.player {
+    text-align: center;
+    padding-top: 150px;
+}
+
+.character {
+    width: 120px;
+    height: 120px;
+    margin: 40px auto 0;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: grayscale(100%);
+    opacity: 0.45;
+    transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Placeholder colors until you add real images */
+#linux {
+    background-image: url("img/linux.png");
+}
+
+#restart{
+    background-color: red;
+}
+
+#macos {
+    background-image: url("img/macOS.png");
+}
+
+.active-player {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.06);
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+}
+
+.battlefield{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.battlefield h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+
+
+#messages {
+    min-height: 24px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+#controls {
+    display: none;
+}
+
+.column-button {
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#playfield {
+    display: grid;
+    grid-template-columns: repeat(7, 60px);
+    gap: 8px;
+    background: #1f3fb7;
+    padding: 12px;
+    border-radius: 16px;
+    width: max-content;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.coin {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #d9d9d9;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hover-column {
+    background: #4da3ff;
+}
+
+.linux-coin {
+    background: #f7d046;
+}
+
+.macos-coin {
+    background: #444;
+}
+
+.winning-coin {
+    outline: 4px solid white;
+    box-shadow: 0 0 12px 4px lime;
+    transform: scale(1.08);
+}
+
+#restart {
+    margin-top: 14px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}

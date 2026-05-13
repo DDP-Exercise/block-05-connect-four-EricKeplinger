@@ -12,3 +12,122 @@
 
 //TODO: Notify the player when the game is over. Make it clear how the
 //      Game ended. If it's a win, show the winning stones.
+
+export const ConnectFourView = {
+    winningCoins: [],
+    linux: document.getElementById("linux"),
+    macos: document.getElementById("macos"),
+    controls: document.getElementById("controls"),
+    messages: document.getElementById("messages"),
+    playfield: document.getElementById("playfield"),
+
+    renderControl(){
+        this.controls.innerHTML = "";
+
+        for (let column = 0; column < 7; column++) {
+            const button = document.createElement("button");
+            button.className = "column-button";
+            button.dataset.column = column;
+            button.textContent = "↓";
+
+            this.controls.appendChild(button);
+        }
+    },
+    renderBoard(board){
+        this.playfield.innerHTML = "";
+
+        for (let row = 0; row < board.length; row++) {
+            for (let column = 0; column < board[row].length; column++) {
+                const circle = document.createElement("div");
+                circle.className = "coin";
+                circle.dataset.row = row;
+                circle.dataset.column = column;
+
+                const value = board[row][column];
+
+                if (value === "linux") {
+                    circle.classList.add("linux-coin");
+                } else if (value === "macos") {
+                    circle.classList.add("macos-coin");
+                }
+
+                const isWinningCoin = this.winningCoins.some((coin) => {
+                    return coin.row === row && coin.column === column;
+                });
+
+                if (isWinningCoin) {
+                    circle.classList.add("winning-coin");
+                }
+
+                this.playfield.appendChild(circle);
+            }
+        }
+    },
+
+    highlightColumn(column){
+        const coins = this.playfield.querySelectorAll(`.coin[data-column="${column}"]`);
+
+        coins.forEach((coin) => {
+            if (!coin.classList.contains("linux-coin") && !coin.classList.contains("macos-coin")) {
+                coin.classList.add("hover-column");
+            }
+        });
+    },
+
+    clearColumnHighlight(){
+        const highlightedCoins = this.playfield.querySelectorAll(".hover-column");
+
+        highlightedCoins.forEach((coin) => {
+            coin.classList.remove("hover-column");
+        });
+    },
+
+    writeMessages(text){
+        this.messages.textContent = text;
+    },
+
+    showCurrentPlayer(player){
+        this.linux.classList.remove("active-player");
+        this.macos.classList.remove("active-player");
+
+        if (player === "linux") {
+            this.linux.classList.add("active-player");
+            this.writeMessages("Linux's turn!");
+        } else if (player === "macos") {
+            this.macos.classList.add("active-player");
+            this.writeMessages("MacOS's turn!");
+        }
+    },
+
+    showGameOver(detail){
+        if (detail.isDraw) {
+            this.winningCoins = [];
+            this.writeMessages("Draw! You will settle the core on another day!.");
+            return;
+        }
+
+        this.winningCoins = detail.winningCoins;
+        if(detail.winner === "linux"){
+            this.writeMessages(detail.winner + " is better than MacOS!");
+        } else if(detail.winner === "macos"){
+            this.writeMessages(detail.winner + " is better than Linux!");
+        }
+
+    },
+
+    bindModelEvents(model){
+        document.addEventListener("connectfour:playerchange", (event) => {
+            this.showCurrentPlayer(event.detail.currentPlayer);
+        });
+
+        document.addEventListener("connectfour:insertCoin", () => {
+            this.renderBoard(model.board);
+        });
+
+        document.addEventListener("connectfour:gameover", (event) => {
+            this.showGameOver(event.detail);
+            this.renderBoard(model.board);
+        });
+    }
+
+};

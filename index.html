@@ -3,9 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Connect Four</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!--TODO: Build the Markup for your Game. Don't forget to style it in a cascading stylesheet. -->
+    <main class="linux-vs-macos">
+        <aside class="player" id="player-1">
+            <h2>Linux</h2>
+            <div class="character" id="linux"></div>
+        </aside>
+
+        <section class="battlefield">
+            <h1>Linux vs MacOS</h1>
+            <p id="messages">Linux starts!</p>
+            <div id="controls"></div>
+            <div id="playfield"></div>
+            <button id="restart">Battle again!</button>
+        </section>
+
+        <aside class="player" id="player-2">
+            <h2>MacOS</h2>
+            <div class="character" id ="macos"></div>
+        </aside>
+    </main>
+
+
+    <script type="module" src = "js/model.connectfour.js"></script>
+    <script type="module" src = "js/view.polished.js"></script>
+    <script type="module" src = "js/controller.connectfour.js"></script>
 
 </body>
 </html>
