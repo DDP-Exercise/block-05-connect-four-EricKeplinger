@@ -59,11 +59,7 @@ body {
 }
 
 #controls {
-    display: grid;
-    grid-template-columns: repeat(7, 60px);
-    gap: 8px;
-    margin-bottom: 12px;
-    width: max-content;
+    display: none;
 }
 
 .column-button {
