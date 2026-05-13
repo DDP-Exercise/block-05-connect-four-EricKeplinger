@@ -85,6 +85,7 @@ const ConnectFourController = {
 
         restartButton.addEventListener("click", function(){
             ConnectFourModel.initBoard();
+            ConnectFourView.winningCoins = [];
             ConnectFourView.renderBoard(ConnectFourModel.board);
             ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
         });
