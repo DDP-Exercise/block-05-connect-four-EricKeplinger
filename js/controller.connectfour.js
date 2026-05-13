@@ -59,31 +59,47 @@ const ConnectFourController = {
         ConnectFourView.showCurrentPlayer(ConnectFourModel.currentPlayer);
 
         this.Controls();
+        this.playField();
         this.Restart();
     },
 
     Controls(){
-        ConnectFourView.controls.addEventListener("click", function(event){
+        ConnectFourView.controls.addEventListener("click", (event) => {
             if (!event.target.classList.contains("column-button")) {
                 return;
             }
 
             const column = Number(event.target.dataset.column);
-            const inserted = ConnectFourModel.insertCoin(column);
+            this.playColumn(column);
+        });
+    },
+    playColumn(column){
+        const inserted = ConnectFourModel.insertCoin(column);
 
-            if (!inserted && !ConnectFourModel.gameOver) {
-                ConnectFourView.writeMessages("This column is full!");
+        if (!inserted && !ConnectFourModel.gameOver) {
+            ConnectFourView.writeMessages("This column is full!");
+            return;
+        }
+
+        ConnectFourView.renderBoard(ConnectFourModel.board);
+    },
+
+    playField(){
+        ConnectFourView.playfield.addEventListener("click", (event) => {
+            if (!event.target.classList.contains("coin")) {
                 return;
             }
 
-            ConnectFourView.renderBoard(ConnectFourModel.board);
+            const column = Number(event.target.dataset.column);
+            this.playColumn(column);
         });
     },
+
 
     Restart(){
         const restartButton = document.getElementById("restart");
 
-        restartButton.addEventListener("click", function(){
+        restartButton.addEventListener("click", () => {
             ConnectFourModel.initBoard();
             ConnectFourView.winningCoins = [];
             ConnectFourView.renderBoard(ConnectFourModel.board);

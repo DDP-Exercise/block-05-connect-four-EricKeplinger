@@ -39,7 +39,7 @@ export const ConnectFourView = {
         for (let row = 0; row < board.length; row++) {
             for (let column = 0; column < board[row].length; column++) {
                 const circle = document.createElement("div");
-                circle.className = "cell";
+                circle.className = "coin";
                 circle.dataset.row = row;
                 circle.dataset.column = column;
 
