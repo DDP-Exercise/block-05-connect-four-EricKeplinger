@@ -4,6 +4,11 @@ body {
     font-family: Arial, sans-serif;
     background: #111;
     color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .linux-vs-macos {
@@ -17,12 +22,13 @@ body {
 
 .player {
     text-align: center;
+    padding-top: 150px;
 }
 
 .character {
     width: 120px;
     height: 120px;
-    margin: 12px auto 0;
+    margin: 40px auto 0;
     border-radius: 20px;
     background-size: cover;
     background-position: center;
@@ -37,6 +43,10 @@ body {
     background-image: url("img/linux.png");
 }
 
+#restart{
+    background-color: red;
+}
+
 #macos {
     background-image: url("img/macOS.png");
 }
@@ -48,8 +58,15 @@ body {
     box-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
 }
 
+.battlefield{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .battlefield h1 {
     margin-top: 0;
+    text-align: center;
 }
 
 
