@@ -60,6 +60,7 @@ const ConnectFourController = {
 
         this.Controls();
         this.playField();
+        this.HoverPlayfield();
         this.Restart();
     },
 
@@ -92,6 +93,22 @@ const ConnectFourController = {
 
             const column = Number(event.target.dataset.column);
             this.playColumn(column);
+        });
+    },
+
+    HoverPlayfield(){
+        ConnectFourView.playfield.addEventListener("mouseover", (event) => {
+            if (!event.target.classList.contains("coin")) {
+                return;
+            }
+
+            const column = Number(event.target.dataset.column);
+            ConnectFourView.clearColumnHighlight();
+            ConnectFourView.highlightColumn(column);
+        });
+
+        ConnectFourView.playfield.addEventListener("mouseout", () => {
+            ConnectFourView.clearColumnHighlight();
         });
     },
 

@@ -64,6 +64,24 @@ export const ConnectFourView = {
         }
     },
 
+    highlightColumn(column){
+        const coins = this.playfield.querySelectorAll(`.coin[data-column="${column}"]`);
+
+        coins.forEach((coin) => {
+            if (!coin.classList.contains("linux-coin") && !coin.classList.contains("macos-coin")) {
+                coin.classList.add("hover-column");
+            }
+        });
+    },
+
+    clearColumnHighlight(){
+        const highlightedCoins = this.playfield.querySelectorAll(".hover-column");
+
+        highlightedCoins.forEach((coin) => {
+            coin.classList.remove("hover-column");
+        });
+    },
+
     writeMessages(text){
         this.messages.textContent = text;
     },
