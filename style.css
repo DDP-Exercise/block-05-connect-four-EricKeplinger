@@ -34,11 +34,11 @@ body {
 
 /* Placeholder colors until you add real images */
 #linux {
-    background: linear-gradient(135deg, #f7d046, #d9a400);
+    background-image: url("img/linux.png");
 }
 
 #macos {
-    background: linear-gradient(135deg, #d9d9d9, #8f8f8f);
+    background-image: url("img/macOS.png");
 }
 
 .active-player {
