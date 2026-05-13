@@ -102,12 +102,17 @@ export const ConnectFourView = {
     showGameOver(detail){
         if (detail.isDraw) {
             this.winningCoins = [];
-            this.writeMessages("Draw! Guess Linux and MacOS are both pretty good.");
+            this.writeMessages("Draw! You will settle the core on another day!.");
             return;
         }
 
         this.winningCoins = detail.winningCoins;
-        this.writeMessages(detail.winner + " is the better OS!");
+        if(detail.winner === "linux"){
+            this.writeMessages(detail.winner + " is better than MacOS!");
+        } else if(detail.winner === "macos"){
+            this.writeMessages(detail.winner + " is better than Linux!");
+        }
+
     },
 
     bindModelEvents(model){
